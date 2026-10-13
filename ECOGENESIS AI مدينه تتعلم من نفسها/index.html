@@ -1,0 +1,4624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ECOGENESIS AI | مدينة تتعلم من نفسها</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+
+    <!-- Orbit Controls -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- ECOGENESIS Competition Intelligence: mapping + browser AI vision -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+</head>
+
+<body>
+
+<!-- =========================================================
+     BOOT SCREEN
+========================================================= -->
+
+<div id="bootScreen" class="boot-screen">
+
+    <div class="boot-grid"></div>
+
+    <div class="boot-content">
+
+        <div class="boot-orb">
+            <div class="boot-orb-core"></div>
+            <div class="boot-ring ring-one"></div>
+            <div class="boot-ring ring-two"></div>
+            <div class="boot-ring ring-three"></div>
+        </div>
+
+        <div class="boot-logo">
+            <span>ECO</span>GENESIS
+            <small>AI CITY INTELLIGENCE ENGINE</small>
+        </div>
+
+        <div class="boot-message" id="bootMessage">
+            Initializing environmental intelligence...
+        </div>
+
+        <div class="boot-progress">
+            <div id="bootProgressBar"></div>
+        </div>
+
+        <div class="boot-percent" id="bootPercent">0%</div>
+
+        <div class="boot-status">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =========================================================
+     GLOBAL AMBIENT EFFECTS
+========================================================= -->
+
+<div class="ambient ambient-one"></div>
+<div class="ambient ambient-two"></div>
+<div class="ambient ambient-three"></div>
+
+<div id="particleLayer" class="particle-layer"></div>
+
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<div id="app" class="app hidden">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-symbol">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+
+            <div class="brand-text">
+                <strong>ECOGENESIS</strong>
+                <span>AI CITY ENGINE</span>
+            </div>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="status-indicator"></span>
+
+            <div>
+                <strong>النظام نشط</strong>
+                <small>AI CORE ONLINE</small>
+            </div>
+
+        </div>
+
+
+        <nav class="main-nav">
+
+            <div class="nav-section-title">
+                <span>المنصة</span>
+            </div>
+
+            <button class="nav-item active" data-page="dashboard">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span>لوحة القيادة</span>
+                <b>01</b>
+            </button>
+
+            <button class="nav-item" data-page="city">
+                <i class="fa-solid fa-city"></i>
+                <span>التوأم الرقمي للمدينة</span>
+                <b>02</b>
+            </button>
+
+            <button class="nav-item" data-page="detective">
+                <i class="fa-solid fa-user-secret"></i>
+                <span>المحقق البيئي</span>
+                <b>03</b>
+            </button>
+
+            <button class="nav-item" data-page="future">
+                <i class="fa-solid fa-timeline"></i>
+                <span>محاكي المستقبل</span>
+                <b>04</b>
+            </button>
+
+            <button class="nav-item" data-page="decision">
+                <i class="fa-solid fa-brain"></i>
+                <span>غرفة القرار</span>
+                <b>05</b>
+            </button>
+
+
+            <div class="nav-section-title">
+                <span>الذكاء البيئي</span>
+            </div>
+
+            <button class="nav-item" data-page="memory">
+                <i class="fa-solid fa-database"></i>
+                <span>ذاكرة المدينة</span>
+                <b>06</b>
+            </button>
+
+            <button class="nav-item" data-page="eco-dna">
+                <i class="fa-solid fa-dna"></i>
+                <span>Eco DNA</span>
+                <b>07</b>
+            </button>
+
+            <button class="nav-item" data-page="earth">
+                <i class="fa-solid fa-earth-americas"></i>
+                <span>القمر الصناعي</span>
+                <b>08</b>
+            </button>
+
+            <button class="nav-item jordan-nav" data-page="jordan">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>خريطة الأردن البيئية</span>
+                <b>09</b>
+            </button>
+
+            <button class="nav-item" data-page="vision">
+                <i class="fa-solid fa-eye"></i>
+                <span>الرؤية الحاسوبية</span>
+                <b>10</b>
+            </button>
+
+
+            <div class="nav-section-title">
+                <span>مختبر الذكاء</span>
+            </div>
+
+            <button class="nav-item" data-page="command">
+                <i class="fa-solid fa-terminal"></i>
+                <span>AI Command Center</span>
+                <b>11</b>
+            </button>
+
+            <button class="nav-item" data-page="judge">
+                <i class="fa-solid fa-trophy"></i>
+                <span>وضع التحكيم</span>
+                <b>12</b>
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="eco-level">
+
+                <div class="eco-level-header">
+                    <span>مستوى المدينة</span>
+                    <strong id="sidebarLevel">GENESIS</strong>
+                </div>
+
+                <div class="level-bar">
+                    <div id="sidebarLevelBar"></div>
+                </div>
+
+                <small id="sidebarXP">0 / 1000 XP</small>
+
+            </div>
+
+
+            <button class="sidebar-action" id="openCrisisBtn">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>محاكاة أزمة</span>
+            </button>
+
+            <button class="sidebar-action" id="openExperimentBtn">
+                <i class="fa-solid fa-flask"></i>
+                <span>مختبر التجارب</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div class="topbar-right">
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="page-heading">
+
+                    <span id="currentPageLabel">
+                        مركز قيادة المدينة
+                    </span>
+
+                    <small id="currentPageSub">
+                        Environmental Intelligence Dashboard
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-center">
+
+                <div class="ai-live-indicator">
+
+                    <span class="pulse-dot"></span>
+
+                    <span>AI CORE</span>
+
+                    <strong id="aiCoreState">
+                        LEARNING
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <div class="city-clock">
+                    <span id="cityTime">00:00:00</span>
+                    <small>AMMAN • LOCAL TIME</small>
+                </div>
+
+
+                <button class="top-action" id="voiceWelcomeBtn"
+                        title="المساعد الصوتي">
+
+                    <i class="fa-solid fa-volume-high"></i>
+
+                </button>
+
+
+                <button class="top-action" id="voiceCommandBtn"
+                        title="الأوامر الصوتية">
+
+                    <i class="fa-solid fa-microphone"></i>
+
+                </button>
+
+
+                <button class="top-action" id="themeToggle"
+                        title="الوضع الليلي">
+
+                    <i class="fa-solid fa-moon"></i>
+
+                </button>
+
+
+                <button class="judge-top-btn" id="judgeQuickBtn">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                    <span>JUDGE MODE</span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             AI EVENT BANNER
+        ================================================== -->
+
+        <div class="event-banner" id="eventBanner">
+
+            <div class="event-icon">
+                <i class="fa-solid fa-satellite-dish"></i>
+            </div>
+
+            <div class="event-content">
+
+                <strong id="eventTitle">
+                    نظام المراقبة البيئية نشط
+                </strong>
+
+                <span id="eventDescription">
+                    الذكاء الاصطناعي يراقب المدينة لحظة بلحظة
+                </span>
+
+            </div>
+
+            <div class="event-action">
+
+                <span id="eventSeverity">
+                    NORMAL
+                </span>
+
+                <button id="eventActionBtn">
+                    تحليل
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAGES
+        ================================================== -->
+
+        <div class="pages">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <section class="page active" id="page-dashboard">
+
+                <div class="hero-dashboard">
+
+                    <div class="hero-copy">
+
+                        <div class="eyebrow">
+                            <span></span>
+                            ECOLOGICAL INTELLIGENCE SYSTEM
+                        </div>
+
+                        <h1>
+                            مدينة
+                            <span>تتعلم</span>
+                            من نفسها
+                        </h1>
+
+                        <p>
+                            ECOGENESIS AI يحول بيانات المدينة والبيئة
+                            إلى قرارات ذكية قابلة للتفسير والتنفيذ
+                        </p>
+
+
+                        <div class="hero-actions">
+
+                            <button class="primary-btn"
+                                    id="startIntelligenceBtn">
+
+                                <i class="fa-solid fa-brain"></i>
+
+                                تشغيل الذكاء الكامل
+
+                            </button>
+
+
+                            <button class="secondary-btn"
+                                    id="openBrainBtn">
+
+                                <i class="fa-solid fa-network-wired"></i>
+
+                                شاهد كيف يفكر AI
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="hero-proof">
+
+                            <div>
+                                <strong>24/7</strong>
+                                <span>مراقبة</span>
+                            </div>
+
+                            <div>
+                                <strong id="heroSensors">128</strong>
+                                <span>مستشعر</span>
+                            </div>
+
+                            <div>
+                                <strong id="heroDecisions">347</strong>
+                                <span>قرار ذكي</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-visual">
+
+                        <div class="orbital-system">
+
+                            <div class="orbit orbit-a"></div>
+                            <div class="orbit orbit-b"></div>
+                            <div class="orbit orbit-c"></div>
+
+                            <div class="ai-core-orb">
+
+                                <div class="core-lines"></div>
+
+                                <i class="fa-solid fa-leaf"></i>
+
+                                <span>AI</span>
+
+                            </div>
+
+                            <div class="orbital-node node-a">
+                                <i class="fa-solid fa-droplet"></i>
+                            </div>
+
+                            <div class="orbital-node node-b">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+
+                            <div class="orbital-node node-c">
+                                <i class="fa-solid fa-wind"></i>
+                            </div>
+
+                            <div class="orbital-node node-d">
+                                <i class="fa-solid fa-recycle"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- HEALTH OVERVIEW -->
+
+                <div class="section-title-row">
+
+                    <div>
+                        <span class="section-kicker">
+                            CITY STATUS
+                        </span>
+
+                        <h2>
+                            الحالة الحيوية للمدينة
+                        </h2>
+                    </div>
+
+                    <div class="live-tag">
+                        <span></span>
+                        LIVE DATA
+                    </div>
+
+                </div>
+
+
+                <div class="metric-grid">
+
+
+                    <article class="metric-card air-card">
+
+                        <div class="metric-top">
+
+                            <div class="metric-icon">
+                                <i class="fa-solid fa-wind"></i>
+                            </div>
+
+                            <span class="metric-status good">
+                                STABLE
+                            </span>
+
+                        </div>
+
+                        <div class="metric-name">
+                            جودة الهواء
+                        </div>
+
+                        <div class="metric-value">
+                            <strong id="airValue">82</strong>
+                            <span>%</span>
+                        </div>
+
+                        <div class="metric-progress">
+                            <div id="airProgress"></div>
+                        </div>
+
+                        <div class="metric-bottom">
+                            <span>PM2.5</span>
+                            <strong id="airPM">18 μg/m³</strong>
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="metric-card water-card">
+
+                        <div class="metric-top">
+
+                            <div class="metric-icon">
+                                <i class="fa-solid fa-droplet"></i>
+                            </div>
+
+                            <span class="metric-status good">
+                                OPTIMAL
+                            </span>
+
+                        </div>
+
+                        <div class="metric-name">
+                            جودة المياه
+                        </div>
+
+                        <div class="metric-value">
+                            <strong id="waterValue">91</strong>
+                            <span>%</span>
+                        </div>
+
+                        <div class="metric-progress">
+                            <div id="waterProgress"></div>
+                        </div>
+
+                        <div class="metric-bottom">
+                            <span>الاستهلاك</span>
+                            <strong id="waterUsage">64 L/min</strong>
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="metric-card energy-card">
+
+                        <div class="metric-top">
+
+                            <div class="metric-icon">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+
+                            <span class="metric-status warning">
+                                MONITOR
+                            </span>
+
+                        </div>
+
+                        <div class="metric-name">
+                            كفاءة الطاقة
+                        </div>
+
+                        <div class="metric-value">
+                            <strong id="energyValue">76</strong>
+                            <span>%</span>
+                        </div>
+
+                        <div class="metric-progress">
+                            <div id="energyProgress"></div>
+                        </div>
+
+                        <div class="metric-bottom">
+                            <span>الاستهلاك</span>
+                            <strong id="energyUsage">2.8 MW</strong>
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="metric-card waste-card">
+
+                        <div class="metric-top">
+
+                            <div class="metric-icon">
+                                <i class="fa-solid fa-recycle"></i>
+                            </div>
+
+                            <span class="metric-status good">
+                                IMPROVING
+                            </span>
+
+                        </div>
+
+                        <div class="metric-name">
+                            إدارة النفايات
+                        </div>
+
+                        <div class="metric-value">
+                            <strong id="wasteValue">88</strong>
+                            <span>%</span>
+                        </div>
+
+                        <div class="metric-progress">
+                            <div id="wasteProgress"></div>
+                        </div>
+
+                        <div class="metric-bottom">
+                            <span>إعادة التدوير</span>
+                            <strong id="recycleValue">72%</strong>
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+
+                <!-- DASHBOARD LOWER -->
+
+                <div class="dashboard-grid">
+
+
+                    <div class="panel health-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    GLOBAL HEALTH
+                                </span>
+
+                                <h3>
+                                    مؤشر صحة المدينة
+                                </h3>
+                            </div>
+
+                            <button class="icon-btn"
+                                    id="refreshHealthBtn">
+
+                                <i class="fa-solid fa-rotate"></i>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="health-content">
+
+                            <div class="health-ring">
+
+                                <svg viewBox="0 0 200 200">
+
+                                    <circle
+                                        class="ring-bg"
+                                        cx="100"
+                                        cy="100"
+                                        r="82">
+                                    </circle>
+
+                                    <circle
+                                        id="healthCircle"
+                                        class="ring-value"
+                                        cx="100"
+                                        cy="100"
+                                        r="82">
+                                    </circle>
+
+                                </svg>
+
+                                <div class="health-number">
+
+                                    <strong id="healthScore">
+                                        84
+                                    </strong>
+
+                                    <span>/ 100</span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="health-details">
+
+                                <div>
+                                    <span class="legend-dot green"></span>
+                                    <span>بيئي</span>
+                                    <strong id="healthEco">89%</strong>
+                                </div>
+
+                                <div>
+                                    <span class="legend-dot cyan"></span>
+                                    <span>طاقي</span>
+                                    <strong id="healthEnergy">78%</strong>
+                                </div>
+
+                                <div>
+                                    <span class="legend-dot purple"></span>
+                                    <span>مائي</span>
+                                    <strong id="healthWater">91%</strong>
+                                </div>
+
+                                <div>
+                                    <span class="legend-dot yellow"></span>
+                                    <span>تشغيلي</span>
+                                    <strong id="healthOperational">82%</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="panel timeline-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    AI EVENT STREAM
+                                </span>
+
+                                <h3>
+                                    نبض المدينة
+                                </h3>
+                            </div>
+
+                            <span class="live-badge">
+                                LIVE
+                            </span>
+
+                        </div>
+
+
+                        <div id="eventTimeline"
+                             class="event-timeline">
+
+                            <div class="timeline-item">
+
+                                <span class="timeline-dot green"></span>
+
+                                <div>
+                                    <strong>
+                                        تم تحسين استهلاك الطاقة
+                                    </strong>
+
+                                    <small>
+                                        AI Optimization • الآن
+                                    </small>
+                                </div>
+
+                            </div>
+
+
+                            <div class="timeline-item">
+
+                                <span class="timeline-dot cyan"></span>
+
+                                <div>
+                                    <strong>
+                                        المستشعرات تعمل بشكل طبيعي
+                                    </strong>
+
+                                    <small>
+                                        Sensor Network • قبل دقيقة
+                                    </small>
+                                </div>
+
+                            </div>
+
+
+                            <div class="timeline-item">
+
+                                <span class="timeline-dot purple"></span>
+
+                                <div>
+                                    <strong>
+                                        تم تحديث نموذج المدينة
+                                    </strong>
+
+                                    <small>
+                                        Digital Twin • قبل 3 دقائق
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="panel chart-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    LIVE ANALYTICS
+                                </span>
+
+                                <h3>
+                                    اتجاه المؤشرات
+                                </h3>
+                            </div>
+
+                            <select id="chartMetric">
+
+                                <option value="all">
+                                    جميع المؤشرات
+                                </option>
+
+                                <option value="air">
+                                    الهواء
+                                </option>
+
+                                <option value="water">
+                                    المياه
+                                </option>
+
+                                <option value="energy">
+                                    الطاقة
+                                </option>
+
+                                <option value="waste">
+                                    النفايات
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="chart-wrap">
+                            <canvas id="liveChart"></canvas>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="panel explain-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    EXPLAINABLE AI
+                                </span>
+
+                                <h3>
+                                    لماذا اتخذ AI هذا القرار؟
+                                </h3>
+                            </div>
+
+                            <i class="fa-solid fa-lightbulb panel-header-icon"></i>
+
+                        </div>
+
+
+                        <div class="decision-reason">
+
+                            <div class="reason-step active">
+
+                                <span>01</span>
+
+                                <div>
+                                    <strong>اكتشاف</strong>
+                                    <small>
+                                        ارتفاع غير طبيعي في استهلاك المياه
+                                    </small>
+                                </div>
+
+                            </div>
+
+
+                            <div class="reason-line"></div>
+
+
+                            <div class="reason-step">
+
+                                <span>02</span>
+
+                                <div>
+                                    <strong>تحليل</strong>
+                                    <small>
+                                        مقارنة البيانات التاريخية والمستشعرات
+                                    </small>
+                                </div>
+
+                            </div>
+
+
+                            <div class="reason-line"></div>
+
+
+                            <div class="reason-step">
+
+                                <span>03</span>
+
+                                <div>
+                                    <strong>تنبؤ</strong>
+                                    <small>
+                                        احتمال وجود تسرب في المنطقة 04
+                                    </small>
+                                </div>
+
+                            </div>
+
+
+                            <div class="reason-line"></div>
+
+
+                            <div class="reason-step">
+
+                                <span>04</span>
+
+                                <div>
+                                    <strong>قرار</strong>
+                                    <small>
+                                        تقليل الضغط وإرسال فريق الصيانة
+                                    </small>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="panel-action"
+                                id="openBrainFromDashboard">
+
+                            عرض سلسلة التفكير
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 DIGITAL CITY
+            ================================================== -->
+
+            <section class="page" id="page-city">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            DIGITAL TWIN • CITY ENGINE
+                        </span>
+
+                        <h2>
+                            التوأم الرقمي للمدينة
+                        </h2>
+
+                        <p>
+                            نسخة رقمية تفاعلية من المدينة مرتبطة بالمستشعرات
+                            والبيانات البيئية في الوقت الحقيقي
+                        </p>
+
+                    </div>
+
+
+                    <div class="page-actions">
+
+                        <button class="secondary-btn"
+                                id="resetCityCamera">
+
+                            <i class="fa-solid fa-camera"></i>
+                            إعادة الكاميرا
+
+                        </button>
+
+                        <button class="primary-btn"
+                                id="optimizeCityBtn">
+
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            AI Optimize
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="city-layout">
+
+
+                    <div class="city-stage-panel">
+
+                        <div class="city-toolbar">
+
+                            <div class="city-mode">
+                                <span class="toolbar-label">
+                                    CITY MODE
+                                </span>
+
+                                <button class="mode-btn active"
+                                        data-city-mode="day">
+                                    <i class="fa-solid fa-sun"></i>
+                                    Day
+                                </button>
+
+                                <button class="mode-btn"
+                                        data-city-mode="night">
+                                    <i class="fa-solid fa-moon"></i>
+                                    Night
+                                </button>
+
+                                <button class="mode-btn"
+                                        data-city-mode="satellite">
+                                    <i class="fa-solid fa-satellite"></i>
+                                    Satellite
+                                </button>
+                            </div>
+
+
+                            <div class="city-live">
+                                <span></span>
+                                DIGITAL TWIN LIVE
+                            </div>
+
+                        </div>
+
+
+                        <div id="city3D"
+                             class="city-3d-container">
+
+                            <div class="city-loading">
+
+                                <div class="mini-spinner"></div>
+
+                                <span>
+                                    Loading Digital Twin...
+                                </span>
+
+                            </div>
+
+
+                            <div class="city-radar">
+
+                                <div class="radar-circle">
+                                    <span></span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="city-overlay-label top-left">
+                                <span>ZONE</span>
+                                <strong id="cityZoneLabel">
+                                    CENTRAL
+                                </strong>
+                            </div>
+
+
+                            <div class="city-overlay-label top-right">
+                                <span>BUILDINGS</span>
+                                <strong id="buildingCount">
+                                    42
+                                </strong>
+                            </div>
+
+
+                            <div class="city-overlay-label bottom-left">
+                                <span>SENSORS</span>
+                                <strong id="sensorCount">
+                                    128
+                                </strong>
+                            </div>
+
+
+                            <div class="city-overlay-label bottom-right">
+                                <span>AI STATUS</span>
+                                <strong class="green-text">
+                                    LEARNING
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="city-hint">
+
+                            <i class="fa-solid fa-computer-mouse"></i>
+
+                            اسحب للدوران • عجلة الماوس للتكبير •
+                            اضغط على أي مبنى لاستعراض بياناته
+
+                        </div>
+
+                    </div>
+
+
+
+                    <aside class="city-side-panel">
+
+
+                        <div class="panel city-health-mini">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <span class="panel-kicker">
+                                        CITY HEALTH
+                                    </span>
+
+                                    <h3>
+                                        الصحة العامة
+                                    </h3>
+                                </div>
+
+                                <strong id="cityHealthMini">
+                                    84%
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mini-health-bar">
+                                <div id="cityHealthBar"></div>
+                            </div>
+
+
+                            <div class="mini-stats">
+
+                                <div>
+                                    <span>المياه</span>
+                                    <strong>91%</strong>
+                                </div>
+
+                                <div>
+                                    <span>الطاقة</span>
+                                    <strong>76%</strong>
+                                </div>
+
+                                <div>
+                                    <span>الهواء</span>
+                                    <strong>82%</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="panel sensor-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <span class="panel-kicker">
+                                        SENSOR NETWORK
+                                    </span>
+
+                                    <h3>
+                                        المستشعرات
+                                    </h3>
+                                </div>
+
+                                <span class="count-pill">
+                                    128
+                                </span>
+
+                            </div>
+
+
+                            <div id="sensorList"
+                                 class="sensor-list">
+
+                                <button class="sensor-row">
+                                    <span class="sensor-dot green"></span>
+                                    <span>Air Sensor A-14</span>
+                                    <strong>82%</strong>
+                                </button>
+
+                                <button class="sensor-row">
+                                    <span class="sensor-dot green"></span>
+                                    <span>Water Sensor W-09</span>
+                                    <strong>91%</strong>
+                                </button>
+
+                                <button class="sensor-row warning">
+                                    <span class="sensor-dot yellow"></span>
+                                    <span>Energy Sensor E-03</span>
+                                    <strong>76%</strong>
+                                </button>
+
+                                <button class="sensor-row danger">
+                                    <span class="sensor-dot red"></span>
+                                    <span>Water Sensor W-21</span>
+                                    <strong>41%</strong>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="panel city-alert-panel">
+
+                            <div class="alert-heading">
+
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                                <div>
+                                    <strong>AI ALERT</strong>
+                                    <span>آخر تنبيه</span>
+                                </div>
+
+                            </div>
+
+                            <p id="cityAlertText">
+                                لا توجد أزمة حرجة حالياً
+                            </p>
+
+                            <button id="investigateCityAlert">
+                                بدء التحقيق
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+
+
+                <div class="city-data-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    HEATMAP
+                                </span>
+
+                                <h3>
+                                    خريطة الضغط البيئي
+                                </h3>
+                            </div>
+
+                        </div>
+
+                        <div id="heatmap"
+                             class="environment-heatmap">
+
+                            <div class="heat-cell safe">A1</div>
+                            <div class="heat-cell good">A2</div>
+                            <div class="heat-cell medium">A3</div>
+                            <div class="heat-cell safe">A4</div>
+                            <div class="heat-cell danger">B1</div>
+                            <div class="heat-cell medium">B2</div>
+                            <div class="heat-cell good">B3</div>
+                            <div class="heat-cell safe">B4</div>
+                            <div class="heat-cell good">C1</div>
+                            <div class="heat-cell medium">C2</div>
+                            <div class="heat-cell danger">C3</div>
+                            <div class="heat-cell safe">C4</div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    CITY PULSE
+                                </span>
+
+                                <h3>
+                                    نبض المدينة
+                                </h3>
+                            </div>
+
+                        </div>
+
+                        <div class="pulse-monitor">
+
+                            <div class="pulse-wave">
+                                <span></span>
+                            </div>
+
+                            <div class="pulse-number">
+                                <strong id="pulseRate">
+                                    72
+                                </strong>
+                                <small>BPM</small>
+                            </div>
+
+                            <div class="pulse-status">
+                                المدينة مستقرة
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 DETECTIVE
+            ================================================== -->
+
+            <section class="page" id="page-detective">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            ENVIRONMENTAL DETECTIVE 2.0
+                        </span>
+
+                        <h2>
+                            المحقق البيئي
+                        </h2>
+
+                        <p>
+                            لا تكتفِ بمشاهدة المشكلة — دع الذكاء الاصطناعي
+                            يكتشف السبب الجذري ويشرح لك كيف وصل إليه
+                        </p>
+
+                    </div>
+
+
+                    <div class="case-status">
+
+                        <span class="case-dot"></span>
+
+                        CASE #EG-2048
+
+                        <strong id="caseState">
+                            OPEN
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detective-layout">
+
+
+                    <div class="case-board panel">
+
+                        <div class="case-header">
+
+                            <div class="case-icon">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    ACTIVE INVESTIGATION
+                                </span>
+
+                                <h3>
+                                    ارتفاع استهلاك المياه
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="case-metrics">
+
+                            <div>
+                                <span>الاستهلاك</span>
+                                <strong id="caseWater">
+                                    +37%
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>المنطقة</span>
+                                <strong>
+                                    ZONE 04
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>الثقة</span>
+                                <strong id="caseConfidence">
+                                    96%
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="investigation-map">
+
+                            <div class="map-grid"></div>
+
+                            <div class="map-node node-1">
+                                <span></span>
+                                A
+                            </div>
+
+                            <div class="map-node node-2">
+                                <span></span>
+                                B
+                            </div>
+
+                            <div class="map-node active">
+                                <span></span>
+                                C
+                            </div>
+
+                            <div class="map-node node-4">
+                                <span></span>
+                                D
+                            </div>
+
+                            <div class="investigation-line line-1"></div>
+                            <div class="investigation-line line-2"></div>
+                            <div class="investigation-line line-3"></div>
+
+                            <div class="map-center-alert">
+                                <i class="fa-solid fa-droplet"></i>
+                                LEAK
+                            </div>
+
+                        </div>
+
+
+                        <button class="primary-btn full"
+                                id="startInvestigationBtn">
+
+                            <i class="fa-solid fa-play"></i>
+
+                            بدء التحقيق بالذكاء الاصطناعي
+
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="ai-reasoning panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    AI REASONING
+                                </span>
+
+                                <h3>
+                                    سلسلة الاستنتاج
+                                </h3>
+                            </div>
+
+                            <span class="confidence-badge">
+                                96% CONFIDENCE
+                            </span>
+
+                        </div>
+
+
+                        <div id="reasoningConsole"
+                             class="reasoning-console">
+
+                            <div class="console-line muted">
+                                > Waiting for investigation...
+                            </div>
+
+                        </div>
+
+
+                        <div class="root-cause">
+
+                            <span>
+                                ROOT CAUSE
+                            </span>
+
+                            <strong id="rootCause">
+                                بانتظار التحليل...
+                            </strong>
+
+                            <small id="rootCauseDetails">
+                                سيقوم AI بتحليل المستشعرات والبيانات التاريخية
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="investigation-result panel">
+
+                    <div class="result-icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+
+                    <div class="result-content">
+
+                        <span>
+                            AI RECOMMENDATION
+                        </span>
+
+                        <h3 id="investigationResultTitle">
+                            لم يتم تنفيذ الحل بعد
+                        </h3>
+
+                        <p id="investigationResultText">
+                            شغّل التحقيق حتى يقوم النظام بتحليل السبب الجذري
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn"
+                            id="applyInvestigationSolution">
+
+                        تطبيق الحل
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FUTURE LAB
+            ================================================== -->
+
+            <section class="page" id="page-future">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            FUTURE SIMULATOR
+                        </span>
+
+                        <h2>
+                            محاكي مستقبل المدينة
+                        </h2>
+
+                        <p>
+                            ماذا سيحدث للمدينة إذا تغيرت قراراتنا اليوم؟
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn"
+                            id="runFutureSimulation">
+
+                        <i class="fa-solid fa-forward-fast"></i>
+                        تشغيل المحاكاة
+
+                    </button>
+
+                </div>
+
+
+                <div class="future-layout">
+
+
+                    <div class="future-controls panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    WHAT IF ENGINE
+                                </span>
+
+                                <h3>
+                                    اصنع المستقبل
+                                </h3>
+                            </div>
+
+                            <i class="fa-solid fa-sliders"></i>
+
+                        </div>
+
+
+                        <div class="future-slider">
+
+                            <div class="slider-label">
+
+                                <span>
+                                    الطاقة المتجددة
+                                </span>
+
+                                <strong id="renewableValue">
+                                    50%
+                                </strong>
+
+                            </div>
+
+                            <input
+                                id="renewableSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="50">
+
+                        </div>
+
+
+                        <div class="future-slider">
+
+                            <div class="slider-label">
+
+                                <span>
+                                    النقل الكهربائي
+                                </span>
+
+                                <strong id="electricValue">
+                                    40%
+                                </strong>
+
+                            </div>
+
+                            <input
+                                id="electricSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="40">
+
+                        </div>
+
+
+                        <div class="future-slider">
+
+                            <div class="slider-label">
+
+                                <span>
+                                    إعادة التدوير
+                                </span>
+
+                                <strong id="recycleFutureValue">
+                                    60%
+                                </strong>
+
+                            </div>
+
+                            <input
+                                id="recycleSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="60">
+
+                        </div>
+
+
+                        <div class="future-slider">
+
+                            <div class="slider-label">
+
+                                <span>
+                                    المساحات الخضراء
+                                </span>
+
+                                <strong id="greenValue">
+                                    55%
+                                </strong>
+
+                            </div>
+
+                            <input
+                                id="greenSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="55">
+
+                        </div>
+
+
+                        <div class="future-years">
+
+                            <button class="year-btn active"
+                                    data-years="5">
+                                +5 سنوات
+                            </button>
+
+                            <button class="year-btn"
+                                    data-years="10">
+                                +10 سنوات
+                            </button>
+
+                            <button class="year-btn"
+                                    data-years="20">
+                                +20 سنة
+                            </button>
+
+                        </div>
+
+
+                        <button class="primary-btn full"
+                                id="calculateFutureBtn">
+
+                            <i class="fa-solid fa-brain"></i>
+
+                            تحليل المستقبل
+
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="future-visual panel">
+
+                        <div class="future-city">
+
+                            <div class="future-sky"></div>
+
+                            <div class="future-sun"></div>
+
+                            <div class="future-buildings">
+
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+
+                            </div>
+
+                            <div class="future-trees">
+
+                                <i class="fa-solid fa-tree"></i>
+                                <i class="fa-solid fa-tree"></i>
+                                <i class="fa-solid fa-tree"></i>
+                                <i class="fa-solid fa-tree"></i>
+                                <i class="fa-solid fa-tree"></i>
+
+                            </div>
+
+                            <div class="future-overlay">
+
+                                <span>
+                                    PROJECTED CITY
+                                </span>
+
+                                <strong id="futureYear">
+                                    2031
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="future-results">
+
+                            <div>
+                                <span>CO₂</span>
+                                <strong id="futureCO2">-28%</strong>
+                            </div>
+
+                            <div>
+                                <span>المياه</span>
+                                <strong id="futureWater">+17%</strong>
+                            </div>
+
+                            <div>
+                                <span>الطاقة</span>
+                                <strong id="futureEnergy">+32%</strong>
+                            </div>
+
+                            <div>
+                                <span>الخضرة</span>
+                                <strong id="futureGreen">+24%</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel future-chart-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">
+                                LONG TERM PROJECTION
+                            </span>
+
+                            <h3>
+                                مسار المدينة المتوقع
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <div class="chart-wrap large">
+                        <canvas id="futureChart"></canvas>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 DECISION ROOM
+            ================================================== -->
+
+            <section class="page" id="page-decision">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            AI DECISION ROOM
+                        </span>
+
+                        <h2>
+                            غرفة القرار
+                        </h2>
+
+                        <p>
+                            اختر استراتيجية وستشاهد كيف يغيّر القرار
+                            شبكة المدينة والبيئة والاقتصاد
+                        </p>
+
+                    </div>
+
+                    <div class="decision-score">
+
+                        <span>DECISION SCORE</span>
+
+                        <strong id="decisionScore">
+                            84
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="decision-grid">
+
+
+                    <article class="decision-card plan-a">
+
+                        <div class="plan-number">
+                            A
+                        </div>
+
+                        <div class="plan-icon">
+                            <i class="fa-solid fa-solar-panel"></i>
+                        </div>
+
+                        <span class="plan-label">
+                            PLAN A
+                        </span>
+
+                        <h3>
+                            التحول للطاقة النظيفة
+                        </h3>
+
+                        <p>
+                            رفع نسبة الطاقة المتجددة وتقليل الاعتماد
+                            على مصادر الطاقة التقليدية
+                        </p>
+
+                        <div class="plan-impact">
+
+                            <span>
+                                الطاقة
+                                <strong>+32%</strong>
+                            </span>
+
+                            <span>
+                                CO₂
+                                <strong>-28%</strong>
+                            </span>
+
+                        </div>
+
+                        <button class="primary-btn full choose-plan"
+                                data-plan="A">
+                            اختيار الخطة
+                        </button>
+
+                    </article>
+
+
+
+                    <article class="decision-card plan-b featured">
+
+                        <div class="recommended-tag">
+                            AI RECOMMENDED
+                        </div>
+
+                        <div class="plan-number">
+                            B
+                        </div>
+
+                        <div class="plan-icon">
+                            <i class="fa-solid fa-droplet"></i>
+                        </div>
+
+                        <span class="plan-label">
+                            PLAN B
+                        </span>
+
+                        <h3>
+                            شبكة مياه ذكية
+                        </h3>
+
+                        <p>
+                            استخدام مستشعرات تنبؤية لمنع التسرب
+                            وإدارة المياه بشكل استباقي
+                        </p>
+
+                        <div class="plan-impact">
+
+                            <span>
+                                المياه
+                                <strong>+41%</strong>
+                            </span>
+
+                            <span>
+                                الهدر
+                                <strong>-37%</strong>
+                            </span>
+
+                        </div>
+
+                        <button class="primary-btn full choose-plan"
+                                data-plan="B">
+                            اختيار الخطة
+                        </button>
+
+                    </article>
+
+
+
+                    <article class="decision-card plan-c">
+
+                        <div class="plan-number">
+                            C
+                        </div>
+
+                        <div class="plan-icon">
+                            <i class="fa-solid fa-recycle"></i>
+                        </div>
+
+                        <span class="plan-label">
+                            PLAN C
+                        </span>
+
+                        <h3>
+                            اقتصاد دائري
+                        </h3>
+
+                        <p>
+                            تحويل النفايات إلى موارد وتقليل النفايات
+                            المرسلة إلى المكبات
+                        </p>
+
+                        <div class="plan-impact">
+
+                            <span>
+                                التدوير
+                                <strong>+46%</strong>
+                            </span>
+
+                            <span>
+                                النفايات
+                                <strong>-31%</strong>
+                            </span>
+
+                        </div>
+
+                        <button class="primary-btn full choose-plan"
+                                data-plan="C">
+                            اختيار الخطة
+                        </button>
+
+                    </article>
+
+                </div>
+
+
+                <div class="butterfly-preview panel">
+
+                    <div class="butterfly-icon">
+                        <i class="fa-solid fa-butterfly"></i>
+                    </div>
+
+                    <div>
+
+                        <span class="panel-kicker">
+                            BUTTERFLY EFFECT
+                        </span>
+
+                        <h3>
+                            قرار واحد قد يغير المدينة بالكامل
+                        </h3>
+
+                        <p>
+                            شاهد سلسلة التأثيرات الناتجة عن قرارك
+                            من المستشعر إلى البيئة إلى جودة الحياة
+                        </p>
+
+                    </div>
+
+                    <button class="secondary-btn"
+                            id="openButterflyBtn">
+
+                        شاهد التأثير
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MEMORY
+            ================================================== -->
+
+            <section class="page" id="page-memory">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            CITY MEMORY
+                        </span>
+
+                        <h2>
+                            ذاكرة المدينة
+                        </h2>
+
+                        <p>
+                            كل قرار وكل أزمة وكل تجربة تصبح معرفة
+                            يمكن للذكاء الاصطناعي التعلم منها
+                        </p>
+
+                    </div>
+
+                    <button class="secondary-btn"
+                            id="clearMemoryBtn">
+
+                        <i class="fa-solid fa-broom"></i>
+                        تنظيف السجل
+
+                    </button>
+
+                </div>
+
+
+                <div class="memory-stats">
+
+                    <div class="memory-stat">
+                        <i class="fa-solid fa-brain"></i>
+                        <strong id="memoryDecisions">347</strong>
+                        <span>قرار محفوظ</span>
+                    </div>
+
+                    <div class="memory-stat">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <strong id="memoryCrises">18</strong>
+                        <span>أزمة محللة</span>
+                    </div>
+
+                    <div class="memory-stat">
+                        <i class="fa-solid fa-flask"></i>
+                        <strong id="memoryExperiments">42</strong>
+                        <span>تجربة</span>
+                    </div>
+
+                    <div class="memory-stat">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <strong id="memoryLearning">76%</strong>
+                        <span>مستوى التعلم</span>
+                    </div>
+
+                </div>
+
+
+                <div class="memory-layout">
+
+
+                    <div class="panel memory-list-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    EXPERIENCE DATABASE
+                                </span>
+
+                                <h3>
+                                    الخبرات المحفوظة
+                                </h3>
+                            </div>
+
+                        </div>
+
+
+                        <div id="memoryList"
+                             class="memory-list">
+
+                            <div class="memory-item">
+
+                                <div class="memory-icon green">
+                                    <i class="fa-solid fa-droplet"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        اكتشاف تسرب مياه
+                                    </strong>
+
+                                    <span>
+                                        تم تطبيق الحل بنجاح
+                                    </span>
+
+                                </div>
+
+                                <small>
+                                    96%
+                                </small>
+
+                            </div>
+
+
+                            <div class="memory-item">
+
+                                <div class="memory-icon cyan">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        تحسين استهلاك الطاقة
+                                    </strong>
+
+                                    <span>
+                                        وفر 14% من الاستهلاك
+                                    </span>
+
+                                </div>
+
+                                <small>
+                                    91%
+                                </small>
+
+                            </div>
+
+
+                            <div class="memory-item">
+
+                                <div class="memory-icon purple">
+                                    <i class="fa-solid fa-recycle"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        تحسين مسار النفايات
+                                    </strong>
+
+                                    <span>
+                                        خفض زمن الجمع 18%
+                                    </span>
+
+                                </div>
+
+                                <small>
+                                    87%
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="panel learning-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    AI EVOLUTION
+                                </span>
+
+                                <h3>
+                                    تطور ذكاء المدينة
+                                </h3>
+                            </div>
+
+                        </div>
+
+
+                        <div class="evolution-visual">
+
+                            <div class="evolution-ring">
+
+                                <div class="evolution-core">
+                                    <span>AI</span>
+                                    <strong id="learningPercent">
+                                        76%
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                            <div class="evolution-labels">
+
+                                <span>
+                                    <i></i>
+                                    المراقبة
+                                </span>
+
+                                <span>
+                                    <i></i>
+                                    التعلم
+                                </span>
+
+                                <span>
+                                    <i></i>
+                                    التنبؤ
+                                </span>
+
+                                <span>
+                                    <i></i>
+                                    الاستقلالية
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <button class="panel-action"
+                                id="openEvolutionBtn">
+
+                            عرض رحلة تطور AI
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ECO DNA
+            ================================================== -->
+
+            <section class="page" id="page-eco-dna">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            ECO DNA
+                        </span>
+
+                        <h2>
+                            البصمة البيئية للمدينة
+                        </h2>
+
+                        <p>
+                            نموذج رقمي يوضح شخصية المدينة البيئية
+                            ونقاط قوتها وضعفها
+                        </p>
+
+                    </div>
+
+                    <div class="dna-score">
+                        <span>ECO SCORE</span>
+                        <strong id="ecoScoreValue">84</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="dna-layout">
+
+
+                    <div class="panel dna-visual-panel">
+
+                        <div class="dna-animation">
+
+                            <div class="dna-strand strand-one"></div>
+                            <div class="dna-strand strand-two"></div>
+
+                            <span class="dna-node n1"></span>
+                            <span class="dna-node n2"></span>
+                            <span class="dna-node n3"></span>
+                            <span class="dna-node n4"></span>
+                            <span class="dna-node n5"></span>
+                            <span class="dna-node n6"></span>
+
+                        </div>
+
+
+                        <div class="dna-center">
+
+                            <strong id="dnaCenterScore">
+                                84
+                            </strong>
+
+                            <span>
+                                ECO DNA
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="panel dna-bars-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="panel-kicker">
+                                    ENVIRONMENTAL GENOME
+                                </span>
+
+                                <h3>
+                                    مكونات البصمة
+                                </h3>
+                            </div>
+
+                        </div>
+
+
+                        <div class="dna-bars">
+
+                            <div class="dna-bar">
+
+                                <div>
+                                    <span>المياه</span>
+                                    <strong>91%</strong>
+                                </div>
+
+                                <div class="bar-track">
+                                    <div style="width:91%"></div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="dna-bar">
+
+                                <div>
+                                    <span>الطاقة</span>
+                                    <strong>76%</strong>
+                                </div>
+
+                                <div class="bar-track">
+                                    <div style="width:76%"></div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="dna-bar">
+
+                                <div>
+                                    <span>الهواء</span>
+                                    <strong>82%</strong>
+                                </div>
+
+                                <div class="bar-track">
+                                    <div style="width:82%"></div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="dna-bar">
+
+                                <div>
+                                    <span>إعادة التدوير</span>
+                                    <strong>72%</strong>
+                                </div>
+
+                                <div class="bar-track">
+                                    <div style="width:72%"></div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="dna-bar">
+
+                                <div>
+                                    <span>المساحات الخضراء</span>
+                                    <strong>68%</strong>
+                                </div>
+
+                                <div class="bar-track">
+                                    <div style="width:68%"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mission-section">
+
+                    <div class="section-title-row">
+
+                        <div>
+                            <span class="section-kicker">
+                                ECO MISSIONS
+                            </span>
+
+                            <h2>
+                                مهام الاستدامة
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mission-grid">
+
+
+                        <div class="mission-card completed">
+
+                            <div class="mission-icon">
+                                <i class="fa-solid fa-droplet"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    MISSION 01
+                                </span>
+
+                                <strong>
+                                    تقليل هدر المياه
+                                </strong>
+
+                                <small>
+                                    مكتملة
+                                </small>
+
+                            </div>
+
+                            <i class="fa-solid fa-circle-check mission-check"></i>
+
+                        </div>
+
+
+                        <div class="mission-card">
+
+                            <div class="mission-icon">
+                                <i class="fa-solid fa-solar-panel"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    MISSION 02
+                                </span>
+
+                                <strong>
+                                    رفع الطاقة النظيفة
+                                </strong>
+
+                                <small>
+                                    +500 XP
+                                </small>
+
+                            </div>
+
+                            <button class="mission-btn"
+                                    data-mission="energy">
+                                تنفيذ
+                            </button>
+
+                        </div>
+
+
+                        <div class="mission-card">
+
+                            <div class="mission-icon">
+                                <i class="fa-solid fa-tree"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    MISSION 03
+                                </span>
+
+                                <strong>
+                                    زيادة المساحات الخضراء
+                                </strong>
+
+                                <small>
+                                    +400 XP
+                                </small>
+
+                            </div>
+
+                            <button class="mission-btn"
+                                    data-mission="green">
+                                تنفيذ
+                            </button>
+
+                        </div>
+
+
+                        <div class="mission-card">
+
+                            <div class="mission-icon">
+                                <i class="fa-solid fa-recycle"></i>
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    MISSION 04
+                                </span>
+
+                                <strong>
+                                    تحسين إعادة التدوير
+                                </strong>
+
+                                <small>
+                                    +350 XP
+                                </small>
+
+                            </div>
+
+                            <button class="mission-btn"
+                                    data-mission="recycle">
+                                تنفيذ
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 EARTH / SATELLITE
+            ================================================== -->
+
+            <section class="page" id="page-earth">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            SATELLITE INTELLIGENCE
+                        </span>
+
+                        <h2>
+                            عين المدينة من الفضاء
+                        </h2>
+
+                        <p>
+                            مراقبة التغيرات البيئية من منظور جوي
+                            وربطها بالذكاء الاصطناعي
+                        </p>
+
+                    </div>
+
+                    <div class="satellite-status">
+                        <span></span>
+                        SATELLITE LINK ACTIVE
+                    </div>
+
+                </div>
+
+
+                <div class="earth-layout">
+
+
+                    <div class="earth-stage panel">
+
+                        <div id="earth3D"
+                             class="earth-container">
+
+                            <div class="earth-loading">
+                                <div class="mini-spinner"></div>
+                                <span>Initializing orbital intelligence...</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="earth-overlay">
+
+                            <div>
+                                <span>ORBIT</span>
+                                <strong>LOW EARTH</strong>
+                            </div>
+
+                            <div>
+                                <span>SCAN</span>
+                                <strong id="satelliteScan">
+                                    98.4%
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>LATENCY</span>
+                                <strong>42ms</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="earth-data">
+
+
+                        <div class="panel satellite-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <span class="panel-kicker">
+                                        REMOTE SENSING
+                                    </span>
+
+                                    <h3>
+                                        التحليل البيئي
+                                    </h3>
+                                </div>
+
+                            </div>
+
+
+                            <div class="satellite-data-row">
+                                <span>الغطاء النباتي</span>
+                                <strong>+12.8%</strong>
+                            </div>
+
+                            <div class="satellite-data-row">
+                                <span>التلوث الهوائي</span>
+                                <strong>-8.4%</strong>
+                            </div>
+
+                            <div class="satellite-data-row">
+                                <span>الجزر الحرارية</span>
+                                <strong>-4.1%</strong>
+                            </div>
+
+                            <div class="satellite-data-row">
+                                <span>المياه السطحية</span>
+                                <strong>+6.2%</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="panel satellite-alert">
+
+                            <div class="alert-heading">
+
+                                <i class="fa-solid fa-satellite"></i>
+
+                                <div>
+                                    <strong>AI SATELLITE ALERT</strong>
+                                    <span>آخر تحليل</span>
+                                </div>
+
+                            </div>
+
+                            <p id="satelliteAlertText">
+                                تم اكتشاف تحسن في الغطاء النباتي
+                                في القطاع الشمالي
+                            </p>
+
+                            <button id="runSatelliteScan">
+                                إعادة المسح
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 JORDAN ECO MAP • COMPETITION INTELLIGENCE
+            ================================================== -->
+            <section class="page" id="page-jordan">
+
+                <div class="page-intro jordan-intro">
+                    <div>
+                        <span class="section-kicker">JORDAN • ECO INTELLIGENCE MAP</span>
+                        <h2>الخريطة البيئية الذكية للأردن</h2>
+                        <p>
+                            طبقة جغرافية تفاعلية تربط مواقع حقيقية في الأردن بمؤشرات المراقبة
+                            البيئية، ثم تستخدم AI Fusion لتحديد أولويات الفحص والتدخل.
+                        </p>
+                    </div>
+                    <div class="jordan-live-badge"><span></span> JORDAN PILOT • LIVE ENGINE</div>
+                </div>
+
+                <div class="jordan-command-strip panel">
+                    <div class="jordan-strip-item"><span>المناطق المراقبة</span><strong id="jordanZoneCount">08</strong></div>
+                    <div class="jordan-strip-item"><span>Hotspots</span><strong id="jordanHotspotCount">04</strong></div>
+                    <div class="jordan-strip-item"><span>AI Fusion</span><strong id="jordanFusionScore">79%</strong></div>
+                    <div class="jordan-strip-item"><span>Data Confidence</span><strong id="jordanConfidence">91%</strong></div>
+                    <button class="eco-map-scan-btn" id="scanJordanBtn"><i class="fa-solid fa-radar"></i> SCAN JORDAN</button>
+                </div>
+
+                <div class="jordan-map-layout">
+                    <div class="panel jordan-map-panel">
+                        <div class="jordan-map-head">
+                            <div>
+                                <span class="panel-kicker">GEOSPATIAL AI</span>
+                                <h3>Jordan Environmental Risk Surface</h3>
+                            </div>
+                            <div class="map-source-badge"><i class="fa-solid fa-database"></i> OpenStreetMap + Jordan monitoring references</div>
+                        </div>
+                        <div id="jordanMap" class="jordan-map"></div>
+                        <div class="jordan-map-legend">
+                            <span><i class="risk-dot low"></i> منخفض</span>
+                            <span><i class="risk-dot medium"></i> مراقبة</span>
+                            <span><i class="risk-dot high"></i> أولوية</span>
+                            <span><i class="risk-dot critical"></i> Hotspot</span>
+                        </div>
+                    </div>
+
+                    <aside class="jordan-intel-column">
+                        <div class="panel jordan-zone-card">
+                            <div class="panel-header">
+                                <div><span class="panel-kicker">SELECTED ZONE</span><h3 id="jordanSelectedName">الزرقاء</h3></div>
+                                <span class="jordan-risk-pill high" id="jordanRiskPill">HIGH PRIORITY</span>
+                            </div>
+                            <p id="jordanSelectedReason">منطقة ذات أولوية للمراقبة البيئية بسبب النشاط الحضري والصناعي ومصادر الانبعاث المحتملة.</p>
+                            <div class="jordan-score-orb"><strong id="jordanSelectedRisk">79</strong><span>RISK / 100</span></div>
+                            <div class="jordan-mini-factors" id="jordanMiniFactors"></div>
+                            <button class="primary-btn full" id="investigateJordanBtn"><i class="fa-solid fa-magnifying-glass-chart"></i> افتح تحقيق AI</button>
+                        </div>
+
+                        <div class="panel fusion-panel">
+                            <div class="panel-header">
+                                <div><span class="panel-kicker">AI FUSION ENGINE</span><h3>لماذا ارتفع الخطر؟</h3></div>
+                                <i class="fa-solid fa-brain panel-header-icon"></i>
+                            </div>
+                            <div id="fusionFactors" class="fusion-factors"></div>
+                            <div class="fusion-result"><span>Combined Risk</span><strong id="fusionRiskValue">79/100</strong></div>
+                            <small class="data-note">القيم الجغرافية هنا تمثل نموذج أولوية/مراقبة مبنيًا على مواقع حقيقية ومصادر رسمية، وليست قياسًا لحظيًا لكل نقطة على الخريطة.</small>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="jordan-bottom-grid">
+                    <div class="panel jordan-prediction-panel">
+                        <div class="panel-header">
+                            <div><span class="panel-kicker">PREDICTIVE ENVIRONMENT</span><h3>ماذا قد يحدث بعد ذلك؟</h3></div>
+                            <i class="fa-solid fa-crystal-ball panel-header-icon"></i>
+                        </div>
+                        <div class="prediction-track">
+                            <div><span>NOW</span><strong id="predNow">79</strong></div>
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <div><span>+6H</span><strong id="pred6">82</strong></div>
+                            <i class="fa-solid fa-chevron-left"></i>
+                            <div><span>+24H</span><strong id="pred24">86</strong></div>
+                        </div>
+                        <p id="jordanPredictionText">إذا استمرت العوامل الحالية، قد ترتفع أولوية التدخل خلال الـ24 ساعة القادمة. هذه نتيجة محاكاة وليست توقعًا تشغيليًا.</p>
+                    </div>
+
+                    <div class="panel decision-arena-panel">
+                        <div class="panel-header">
+                            <div><span class="panel-kicker">AI DECISION ARENA</span><h3>أفضل تدخل</h3></div>
+                            <i class="fa-solid fa-scale-balanced panel-header-icon"></i>
+                        </div>
+                        <div class="decision-options">
+                            <button class="jordan-decision" data-jordan-decision="inspect"><strong>01</strong><span>زيادة التفتيش</span><small>تكلفة متوسطة • تأثير +18%</small></button>
+                            <button class="jordan-decision" data-jordan-decision="traffic"><strong>02</strong><span>إدارة الحركة</span><small>تكلفة مرتفعة • تأثير +31%</small></button>
+                            <button class="jordan-decision recommended" data-jordan-decision="source"><strong>03</strong><span>معالجة المصدر</span><small>تكلفة مرتفعة • تأثير +43%</small><em>AI RECOMMENDED</em></button>
+                        </div>
+                        <div class="decision-explain" id="jordanDecisionExplain">يوصي AI بمعالجة المصدر عندما تشير مجموعة الأدلة إلى أن التدخل الجذري يحقق أثرًا أطول مدى.</div>
+                    </div>
+                </div>
+
+                <div class="jordan-sources panel">
+                    <div><i class="fa-solid fa-shield-halved"></i><strong>شفافية البيانات</strong><span>مواقع المدن ومحطات/مناطق الرصد مأخوذة كمرجع جغرافي، بينما Risk Score هو نموذج توضيحي داخل المشروع.</span></div>
+                    <div><i class="fa-solid fa-landmark"></i><strong>Jordan Ministry of Environment</strong><span>يستخدم المشروع نطاقات الرصد البيئي الرسمية كمرجع للـPilot الأردني.</span></div>
+                    <div><i class="fa-solid fa-map"></i><strong>OpenStreetMap</strong><span>الخريطة الأساسية تفاعلية ومفتوحة المصدر.</span></div>
+                </div>
+            </section>
+
+
+            <!-- =================================================
+                 VISION AI
+            ================================================== -->
+
+            <section class="page" id="page-vision">
+                <div class="page-intro">
+                    <div>
+                        <span class="section-kicker">ECO-VISION AI • COMPUTER VISION</span>
+                        <h2>عين المدينة: من الصورة إلى قرار بيئي</h2>
+                        <p>ارفع صورة حقيقية. النموذج يعمل داخل المتصفح لاكتشاف عناصر مرئية، ثم يحولها إلى مؤشرات خطر وتوصيات قابلة للمراجعة.</p>
+                    </div>
+                    <span class="simulation-tag eco-ai-live-tag" id="visionModelBadge">AI MODEL • LOADING</span>
+                </div>
+
+                <div class="vision-upgrade-grid">
+                    <div class="vision-upload panel">
+                        <input type="file" id="visionFile" accept="image/*" hidden>
+                        <div id="visionDropzone" class="vision-dropzone eco-vision-dropzone">
+                            <div class="vision-icon"><i class="fa-solid fa-camera-viewfinder"></i></div>
+                            <span class="vision-scan-line"></span>
+                            <h3>أدخل صورة من الميدان</h3>
+                            <p>شارع • نفايات • دخان • مساحة خضراء • ازدحام • بنية تحتية</p>
+                            <button class="secondary-btn" id="visionBrowseBtn"><i class="fa-solid fa-folder-open"></i> اختيار صورة</button>
+                        </div>
+                        <div id="visionPreview" class="vision-preview hidden">
+                            <img id="visionImage" alt="Eco Vision Preview">
+                            <button id="removeVisionImage" class="remove-image-btn"><i class="fa-solid fa-xmark"></i></button>
+                            <div class="vision-overlay-chip"><i class="fa-solid fa-crosshairs"></i> AI VISION FRAME</div>
+                        </div>
+                        <button class="primary-btn full" id="runVisionBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> تحليل الصورة بالذكاء الاصطناعي</button>
+                        <div class="vision-engine-status"><span id="visionEngineDot"></span><span id="visionEngineText">جاري تحميل نموذج الرؤية...</span></div>
+                    </div>
+
+                    <div class="panel vision-results">
+                        <div class="panel-header">
+                            <div><span class="panel-kicker">AI DETECTION</span><h3>ماذا رأت عين AI؟</h3></div>
+                            <span id="visionStatus" class="analysis-status">WAITING</span>
+                        </div>
+                        <div id="visionResults" class="vision-ai-grid">
+                            <div class="vision-ai-metric"><span><i class="fa-solid fa-car"></i> حركة/مركبات</span><strong id="visionTraffic">--</strong></div>
+                            <div class="vision-ai-metric"><span><i class="fa-solid fa-tree"></i> غطاء أخضر</span><strong id="visionGreen">--</strong></div>
+                            <div class="vision-ai-metric"><span><i class="fa-solid fa-trash-can"></i> مؤشرات نفايات</span><strong id="visionWaste">--</strong></div>
+                            <div class="vision-ai-metric"><span><i class="fa-solid fa-smog"></i> تلوث مرئي محتمل</span><strong id="visionPollution">--</strong></div>
+                        </div>
+                        <div class="vision-risk-hero">
+                            <div><span class="panel-kicker">ENVIRONMENTAL RISK</span><strong id="visionRiskScore">--</strong><small>/100</small></div>
+                            <div class="risk-meter"><i id="visionRiskBar"></i></div>
+                            <p id="visionRiskText">أضف صورة لبدء التحليل.</p>
+                        </div>
+                        <div class="vision-detections" id="visionDetections"><span>OBJECT DETECTIONS</span><small>لا توجد نتائج بعد</small></div>
+                    </div>
+                </div>
+
+                <div class="vision-decision-grid">
+                    <div class="panel vision-location-panel">
+                        <div class="panel-header"><div><span class="panel-kicker">IMAGE → MAP</span><h3>اربط الصورة بموقع أردني</h3></div><i class="fa-solid fa-location-crosshairs panel-header-icon"></i></div>
+                        <div class="vision-location-controls">
+                            <select id="visionJordanZone">
+                                <option value="zarqa">الزرقاء</option><option value="amman">عمّان</option><option value="irbid">إربد</option><option value="aqaba">العقبة</option><option value="tafila">الطفيلة</option><option value="hasa">الحسا</option>
+                            </select>
+                            <button class="primary-btn" id="sendVisionToMap"><i class="fa-solid fa-map-location-dot"></i> أرسل إلى خريطة الأردن</button>
+                        </div>
+                        <div class="vision-location-note">الصورة وحدها لا تثبت أن المكان آمن أو خطير؛ النظام يستخدمها كدليل بصري مساعد ويقترح فحصًا بشريًا عند ارتفاع المؤشرات.</div>
+                    </div>
+                    <div class="panel vision-action-panel">
+                        <div class="panel-header"><div><span class="panel-kicker">AI RECOMMENDATION</span><h3>ماذا نفعل الآن؟</h3></div><i class="fa-solid fa-route panel-header-icon"></i></div>
+                        <ul id="visionRecommendations" class="vision-recommendations"><li>انتظر نتيجة التحليل.</li></ul>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- =================================================
+                 COMMAND CENTER
+            ================================================== -->
+
+            <section class="page" id="page-command">
+
+                <div class="page-intro">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            AI COMMAND CENTER
+                        </span>
+
+                        <h2>
+                            تحدث مع المدينة
+                        </h2>
+
+                        <p>
+                            اسأل الذكاء الاصطناعي عن حالة المدينة
+                            أو اطلب منه تنفيذ تحليل أو إنشاء خطة
+                        </p>
+
+                    </div>
+
+                    <button class="secondary-btn"
+                            id="commandVoiceBtn">
+
+                        <i class="fa-solid fa-microphone"></i>
+                        تحدث
+
+                    </button>
+
+                </div>
+
+
+                <div class="command-layout">
+
+
+                    <div class="command-chat panel">
+
+                        <div class="chat-header">
+
+                            <div class="ai-avatar">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    ECOGENESIS COPILOT
+                                </strong>
+
+                                <span>
+                                    AI Environmental Assistant
+                                </span>
+                            </div>
+
+                            <span class="chat-online">
+                                ONLINE
+                            </span>
+
+                        </div>
+
+
+                        <div id="chatMessages"
+                             class="chat-messages">
+
+                            <div class="chat-message ai">
+
+                                <div class="message-avatar">
+                                    AI
+                                </div>
+
+                                <div class="message-bubble">
+
+                                    مرحباً 👋 أنا عقل ECOGENESIS AI.
+
+                                    <br><br>
+
+                                    يمكنك أن تسألني مثلاً:
+                                    <br>
+                                    • كيف حالة المياه؟
+                                    <br>
+                                    • ماذا يحدث للطاقة؟
+                                    <br>
+                                    • حل مشكلة التلوث
+                                    <br>
+                                    • اعمل خطة استدامة
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chat-input-area">
+
+                            <input
+                                id="commandInput"
+                                type="text"
+                                placeholder="اكتب أمراً للمدينة...">
+
+                            <button id="sendCommandBtn">
+
+                                <i class="fa-solid fa-paper-plane"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="command-side">
+
+
+                        <div class="panel quick-command-panel">
+
+                            <div class="panel-header">
+
+                                <div>
+                                    <span class="panel-kicker">
+                                        QUICK COMMANDS
+                                    </span>
+
+                                    <h3>
+                                        أوامر سريعة
+                                    </h3>
+                                </div>
+
+                            </div>
+
+
+                            <button class="quick-command"
+                                    data-command="حل مشكلة المياه">
+
+                                <i class="fa-solid fa-droplet"></i>
+
+                                <span>
+                                    حل مشكلة المياه
+                                </span>
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                            </button>
+
+
+                            <button class="quick-command"
+                                    data-command="حل مشكلة الطاقة">
+
+                                <i class="fa-solid fa-bolt"></i>
+
+                                <span>
+                                    تحسين الطاقة
+                                </span>
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                            </button>
+
+
+                            <button class="quick-command"
+                                    data-command="اعمل خطة استدامة">
+
+                                <i class="fa-solid fa-leaf"></i>
+
+                                <span>
+                                    خطة استدامة
+                                </span>
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                            </button>
+
+
+                            <button class="quick-command"
+                                    data-command="حلل حالة المدينة">
+
+                                <i class="fa-solid fa-chart-line"></i>
+
+                                <span>
+                                    تحليل المدينة
+                                </span>
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                            </button>
+
+                        </div>
+
+
+
+                        <div class="panel copilot-panel">
+
+                            <div class="copilot-glow"></div>
+
+                            <div class="copilot-face">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+
+                            <span>
+                                AI COPILOT
+                            </span>
+
+                            <strong id="copilotMood">
+                                أراقب المدينة...
+                            </strong>
+
+                            <p id="copilotMessage">
+                                كل شيء مستقر حالياً، لكنني مستعد
+                                للتدخل إذا تغير أي مؤشر.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 JUDGE MODE
+            ================================================== -->
+
+            <section class="page" id="page-judge">
+
+                <div class="judge-hero">
+
+                    <div class="judge-badge">
+                        <i class="fa-solid fa-trophy"></i>
+                        PRESENTATION MODE
+                    </div>
+
+                    <h1>
+                        ECOGENESIS
+                        <span>AI</span>
+                    </h1>
+
+                    <p>
+                        مدينة لا تنتظر المشكلة...
+                        بل تتعلم وتتنبأ وتتخذ القرار قبل حدوثها
+                    </p>
+
+
+                    <div class="judge-actions">
+
+                        <button class="primary-btn"
+                                id="startJudgeBtn">
+
+                            <i class="fa-solid fa-play"></i>
+
+                            بدء العرض الذكي
+
+                        </button>
+
+                        <button class="secondary-btn"
+                                id="exportReportBtn">
+
+                            <i class="fa-solid fa-file-export"></i>
+
+                            تصدير تقرير المشروع
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="judge-progress">
+
+                    <div class="judge-progress-bar">
+
+                        <div id="judgeProgress"></div>
+
+                    </div>
+
+                    <span id="judgeStepText">
+                        جاهز للبدء
+                    </span>
+
+                </div>
+
+
+                <div class="judge-stats">
+
+                    <div>
+                        <strong id="judgeStatScore">
+                            84
+                        </strong>
+
+                        <span>
+                            CITY HEALTH
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>
+                            128
+                        </strong>
+
+                        <span>
+                            SENSORS
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>
+                            347
+                        </strong>
+
+                        <span>
+                            AI DECISIONS
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>
+                            24/7
+                        </strong>
+
+                        <span>
+                            MONITORING
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="judge-features">
+
+                    <div>
+                        <i class="fa-solid fa-city"></i>
+                        <span>Digital Twin</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-brain"></i>
+                        <span>Explainable AI</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Future Simulation</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-butterfly"></i>
+                        <span>Butterfly Effect</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-satellite"></i>
+                        <span>Satellite Intelligence</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-dna"></i>
+                        <span>Eco DNA</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <footer class="app-footer">
+
+            <div>
+                <strong>ECOGENESIS AI</strong>
+                <span>Environmental Intelligence Engine</span>
+            </div>
+
+            <div>
+                <span>AI CORE</span>
+                <strong class="green-text">
+                    ONLINE
+                </strong>
+            </div>
+
+            <div>
+                <span>VERSION</span>
+                <strong>
+                    5.0 JORDAN INTELLIGENCE
+                </strong>
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     FLOATING AI CONTROL CENTER
+========================================================= -->
+
+<div id="aiControlCenter"
+     class="ai-control-center">
+
+    <button id="aiControlToggle"
+            class="ai-control-main">
+
+        <div class="ai-control-orb">
+            <i class="fa-solid fa-brain"></i>
+        </div>
+
+        <span>
+            AI
+        </span>
+
+    </button>
+
+
+    <div class="ai-control-menu">
+
+        <button data-ai-action="crisis">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>أزمة</span>
+        </button>
+
+        <button data-ai-action="butterfly">
+            <i class="fa-solid fa-butterfly"></i>
+            <span>تأثير</span>
+        </button>
+
+        <button data-ai-action="future">
+            <i class="fa-solid fa-clock"></i>
+            <span>مستقبل</span>
+        </button>
+
+        <button data-ai-action="brain">
+            <i class="fa-solid fa-network-wired"></i>
+            <span>عقل AI</span>
+        </button>
+
+        <button data-ai-action="experiment">
+            <i class="fa-solid fa-flask"></i>
+            <span>مختبر</span>
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CRISIS MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="crisisModal">
+
+    <div class="modal crisis-modal">
+
+        <button class="modal-close"
+                data-close-modal="crisisModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <div class="crisis-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <span class="modal-kicker">
+            CRISIS SIMULATION
+        </span>
+
+        <h2>
+            مركز إدارة الأزمات
+        </h2>
+
+        <p>
+            اختر أزمة بيئية وشاهد كيف يتفاعل الذكاء الاصطناعي
+            معها خطوة بخطوة
+        </p>
+
+
+        <div class="crisis-options">
+
+            <button class="crisis-option"
+                    data-crisis="water">
+
+                <i class="fa-solid fa-droplet"></i>
+
+                <strong>
+                    أزمة مياه
+                </strong>
+
+                <span>
+                    تسرب واسع النطاق
+                </span>
+
+            </button>
+
+
+            <button class="crisis-option"
+                    data-crisis="heat">
+
+                <i class="fa-solid fa-temperature-high"></i>
+
+                <strong>
+                    موجة حر
+                </strong>
+
+                <span>
+                    ارتفاع حراري مفاجئ
+                </span>
+
+            </button>
+
+
+            <button class="crisis-option"
+                    data-crisis="energy">
+
+                <i class="fa-solid fa-bolt"></i>
+
+                <strong>
+                    ضغط الطاقة
+                </strong>
+
+                <span>
+                    ارتفاع استهلاك الشبكة
+                </span>
+
+            </button>
+
+
+            <button class="crisis-option"
+                    data-crisis="waste">
+
+                <i class="fa-solid fa-trash-can"></i>
+
+                <strong>
+                    أزمة نفايات
+                </strong>
+
+                <span>
+                    امتلاء نقاط الجمع
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div id="crisisSimulation"
+             class="crisis-simulation hidden">
+
+            <div class="crisis-progress">
+
+                <div id="crisisProgressBar"></div>
+
+            </div>
+
+            <div id="crisisLog"
+                 class="crisis-log"></div>
+
+            <button class="primary-btn full"
+                    id="resolveCrisisBtn">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                تنفيذ خطة AI
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     BUTTERFLY MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="butterflyModal">
+
+    <div class="modal butterfly-modal">
+
+        <button class="modal-close"
+                data-close-modal="butterflyModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            BUTTERFLY EFFECT
+        </span>
+
+        <h2>
+            كيف ينتشر تأثير القرار؟
+        </h2>
+
+        <p>
+            اختر قراراً وشاهد كيف تنتقل نتائجه عبر المدينة
+        </p>
+
+
+        <div class="butterfly-flow">
+
+            <div class="butter-node">
+                <i class="fa-solid fa-brain"></i>
+                <span>قرار AI</span>
+            </div>
+
+            <div class="butter-line"></div>
+
+            <div class="butter-node">
+                <i class="fa-solid fa-city"></i>
+                <span>المدينة</span>
+            </div>
+
+            <div class="butter-line"></div>
+
+            <div class="butter-node">
+                <i class="fa-solid fa-leaf"></i>
+                <span>البيئة</span>
+            </div>
+
+            <div class="butter-line"></div>
+
+            <div class="butter-node">
+                <i class="fa-solid fa-users"></i>
+                <span>جودة الحياة</span>
+            </div>
+
+        </div>
+
+
+        <div class="butter-choice">
+
+            <button data-butterfly="water">
+                تحسين المياه
+            </button>
+
+            <button data-butterfly="energy">
+                الطاقة النظيفة
+            </button>
+
+            <button data-butterfly="green">
+                المساحات الخضراء
+            </button>
+
+        </div>
+
+
+        <div id="butterflyResult"
+             class="butterfly-result">
+
+            اختر قراراً لبدء المحاكاة
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     FUTURE MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="futureModal">
+
+    <div class="modal future-modal">
+
+        <button class="modal-close"
+                data-close-modal="futureModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            FUTURE ENGINE
+        </span>
+
+        <h2>
+            محرك المستقبل
+        </h2>
+
+        <p>
+            الذكاء الاصطناعي يحاكي عشرات الاحتمالات المستقبلية
+        </p>
+
+
+        <div class="future-time-options">
+
+            <button class="future-time active"
+                    data-future-years="5">
+                5 سنوات
+            </button>
+
+            <button class="future-time"
+                    data-future-years="10">
+                10 سنوات
+            </button>
+
+            <button class="future-time"
+                    data-future-years="20">
+                20 سنة
+            </button>
+
+        </div>
+
+
+        <div class="future-simulation-result">
+
+            <div class="future-result-orb">
+
+                <strong id="modalFutureScore">
+                    91
+                </strong>
+
+                <span>
+                    FUTURE HEALTH
+                </span>
+
+            </div>
+
+
+            <div class="future-impact-list">
+
+                <div>
+                    <span>جودة الهواء</span>
+                    <strong>+24%</strong>
+                </div>
+
+                <div>
+                    <span>المياه</span>
+                    <strong>+31%</strong>
+                </div>
+
+                <div>
+                    <span>الطاقة النظيفة</span>
+                    <strong>+47%</strong>
+                </div>
+
+                <div>
+                    <span>البصمة الكربونية</span>
+                    <strong>-39%</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     AI BRAIN MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="brainModal">
+
+    <div class="modal brain-modal">
+
+        <button class="modal-close"
+                data-close-modal="brainModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            EXPLAINABLE AI
+        </span>
+
+        <h2>
+            كيف يفكر ECOGENESIS AI؟
+        </h2>
+
+        <p>
+            كل قرار يمر عبر سلسلة واضحة يمكن للإنسان فهمها
+        </p>
+
+
+        <div class="brain-flow">
+
+            <div class="brain-step active">
+
+                <div class="brain-icon">
+                    <i class="fa-solid fa-satellite-dish"></i>
+                </div>
+
+                <span>
+                    01
+                </span>
+
+                <strong>
+                    Sensors
+                </strong>
+
+                <small>
+                    جمع البيانات
+                </small>
+
+            </div>
+
+
+            <div class="brain-arrow">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+
+            <div class="brain-step">
+
+                <div class="brain-icon">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+
+                <span>
+                    02
+                </span>
+
+                <strong>
+                    Data
+                </strong>
+
+                <small>
+                    تنظيم البيانات
+                </small>
+
+            </div>
+
+
+            <div class="brain-arrow">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+
+            <div class="brain-step">
+
+                <div class="brain-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+
+                <span>
+                    03
+                </span>
+
+                <strong>
+                    Analysis
+                </strong>
+
+                <small>
+                    اكتشاف الأنماط
+                </small>
+
+            </div>
+
+
+            <div class="brain-arrow">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+
+            <div class="brain-step">
+
+                <div class="brain-icon">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+
+                <span>
+                    04
+                </span>
+
+                <strong>
+                    Decision
+                </strong>
+
+                <small>
+                    اختيار الحل
+                </small>
+
+            </div>
+
+
+            <div class="brain-arrow">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+
+            <div class="brain-step">
+
+                <div class="brain-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <span>
+                    05
+                </span>
+
+                <strong>
+                    Action
+                </strong>
+
+                <small>
+                    تنفيذ القرار
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="brain-explanation">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            <div>
+
+                <strong id="brainExplanationTitle">
+                    جمع البيانات
+                </strong>
+
+                <p id="brainExplanationText">
+                    يقوم النظام بقراءة بيانات المستشعرات
+                    البيئية قبل اتخاذ أي قرار.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     EXPERIMENT LAB MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="experimentModal">
+
+    <div class="modal experiment-modal">
+
+        <button class="modal-close"
+                data-close-modal="experimentModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            ECO EXPERIMENT LAB
+        </span>
+
+        <h2>
+            مختبر التجارب البيئية
+        </h2>
+
+        <p>
+            غيّر متغيراً واحداً وشاهد كيف يتغير سلوك المدينة
+        </p>
+
+
+        <div class="experiment-controls">
+
+            <button class="experiment-card active"
+                    data-experiment="trees">
+
+                <i class="fa-solid fa-tree"></i>
+
+                <strong>
+                    زراعة الأشجار
+                </strong>
+
+                <span>
+                    + المساحات الخضراء
+                </span>
+
+            </button>
+
+
+            <button class="experiment-card"
+                    data-experiment="solar">
+
+                <i class="fa-solid fa-solar-panel"></i>
+
+                <strong>
+                    الطاقة الشمسية
+                </strong>
+
+                <span>
+                    + الطاقة النظيفة
+                </span>
+
+            </button>
+
+
+            <button class="experiment-card"
+                    data-experiment="recycle">
+
+                <i class="fa-solid fa-recycle"></i>
+
+                <strong>
+                    إعادة التدوير
+                </strong>
+
+                <span>
+                    - النفايات
+                </span>
+
+            </button>
+
+
+            <button class="experiment-card"
+                    data-experiment="water">
+
+                <i class="fa-solid fa-faucet-drip"></i>
+
+                <strong>
+                    إدارة المياه
+                </strong>
+
+                <span>
+                    - الهدر
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div class="experiment-output">
+
+            <div class="experiment-city-preview">
+
+                <div class="experiment-buildings"></div>
+
+                <div class="experiment-trees"
+                     id="experimentTrees">
+
+                    <i class="fa-solid fa-tree"></i>
+                    <i class="fa-solid fa-tree"></i>
+                    <i class="fa-solid fa-tree"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="experiment-results">
+
+                <div>
+                    <span>الهواء</span>
+                    <strong id="experimentAir">+8%</strong>
+                </div>
+
+                <div>
+                    <span>المياه</span>
+                    <strong id="experimentWater">+3%</strong>
+                </div>
+
+                <div>
+                    <span>الطاقة</span>
+                    <strong id="experimentEnergy">+2%</strong>
+                </div>
+
+                <div>
+                    <span>الاستدامة</span>
+                    <strong id="experimentEco">+12%</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button class="primary-btn full"
+                id="runExperimentBtn">
+
+            <i class="fa-solid fa-flask-vial"></i>
+
+            تشغيل التجربة
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     EVOLUTION MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="evolutionModal">
+
+    <div class="modal evolution-modal">
+
+        <button class="modal-close"
+                data-close-modal="evolutionModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            AI EVOLUTION
+        </span>
+
+        <h2>
+            رحلة تطور ذكاء المدينة
+        </h2>
+
+
+        <div class="evolution-timeline">
+
+            <div class="evolution-stage complete">
+
+                <div class="evolution-stage-icon">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+
+                <span>LEVEL 01</span>
+
+                <strong>
+                    المراقبة
+                </strong>
+
+                <small>
+                    المدينة ترى ما يحدث
+                </small>
+
+            </div>
+
+
+            <div class="evolution-connector complete"></div>
+
+
+            <div class="evolution-stage complete">
+
+                <div class="evolution-stage-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+
+                <span>LEVEL 02</span>
+
+                <strong>
+                    التعلم
+                </strong>
+
+                <small>
+                    المدينة تتعلم من البيانات
+                </small>
+
+            </div>
+
+
+            <div class="evolution-connector complete"></div>
+
+
+            <div class="evolution-stage active">
+
+                <div class="evolution-stage-icon">
+                    <i class="fa-solid fa-crystal-ball"></i>
+                </div>
+
+                <span>LEVEL 03</span>
+
+                <strong>
+                    التنبؤ
+                </strong>
+
+                <small>
+                    المدينة تتوقع المشكلات
+                </small>
+
+            </div>
+
+
+            <div class="evolution-connector"></div>
+
+
+            <div class="evolution-stage">
+
+                <div class="evolution-stage-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <span>LEVEL 04</span>
+
+                <strong>
+                    الاستقلالية
+                </strong>
+
+                <small>
+                    المدينة تتصرف ذاتياً
+                </small>
+
+            </div>
+
+
+            <div class="evolution-connector"></div>
+
+
+            <div class="evolution-stage">
+
+                <div class="evolution-stage-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+
+                <span>LEVEL 05</span>
+
+                <strong>
+                    ECOGENESIS
+                </strong>
+
+                <small>
+                    مدينة تتعلم من نفسها
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="evolution-progress">
+
+            <div class="evolution-progress-head">
+
+                <span>
+                    التقدم الحالي
+                </span>
+
+                <strong>
+                    76%
+                </strong>
+
+            </div>
+
+            <div class="level-bar large">
+                <div style="width:76%"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     BUILDING DETAILS MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="buildingModal">
+
+    <div class="modal building-modal">
+
+        <button class="modal-close"
+                data-close-modal="buildingModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            DIGITAL TWIN NODE
+        </span>
+
+        <h2 id="buildingTitle">
+            مبنى ذكي
+        </h2>
+
+        <p id="buildingDescription">
+            بيانات المبنى في الوقت الحقيقي
+        </p>
+
+
+        <div class="building-data-grid">
+
+            <div>
+                <i class="fa-solid fa-bolt"></i>
+                <span>الطاقة</span>
+                <strong id="buildingEnergy">72%</strong>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-droplet"></i>
+                <span>المياه</span>
+                <strong id="buildingWater">88%</strong>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-wind"></i>
+                <span>الهواء</span>
+                <strong id="buildingAir">81%</strong>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-leaf"></i>
+                <span>الكفاءة</span>
+                <strong id="buildingEfficiency">94%</strong>
+            </div>
+
+        </div>
+
+
+        <div class="building-ai-status">
+
+            <span class="pulse-dot"></span>
+
+            <div>
+                <strong>
+                    AI STATUS
+                </strong>
+
+                <small id="buildingAIStatus">
+                    المبنى يعمل ضمن النطاق الطبيعي
+                </small>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     REPORT MODAL
+========================================================= -->
+
+<div class="modal-overlay"
+     id="reportModal">
+
+    <div class="modal report-modal">
+
+        <button class="modal-close"
+                data-close-modal="reportModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <span class="modal-kicker">
+            ECOGENESIS REPORT
+        </span>
+
+        <h2>
+            تقرير ذكاء المدينة
+        </h2>
+
+        <div id="reportContent"
+             class="report-content">
+
+            <div class="report-header">
+
+                <strong>
+                    ECOGENESIS AI
+                </strong>
+
+                <span>
+                    Environmental Intelligence Report
+                </span>
+
+            </div>
+
+
+            <div class="report-summary">
+
+                <div>
+                    <span>City Health</span>
+                    <strong id="reportHealth">
+                        84%
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Eco Score</span>
+                    <strong id="reportEco">
+                        84
+                    </strong>
+                </div>
+
+                <div>
+                    <span>AI Learning</span>
+                    <strong id="reportLearning">
+                        76%
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="report-section">
+
+                <h3>
+                    ملخص النظام
+                </h3>
+
+                <p>
+                    ECOGENESIS AI يقوم بمراقبة المؤشرات البيئية
+                    وتحليلها والتنبؤ بالمشكلات واقتراح قرارات
+                    ذكية قابلة للتنفيذ.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="report-actions">
+
+            <button class="primary-btn"
+                    id="downloadReportBtn">
+
+                <i class="fa-solid fa-download"></i>
+
+                حفظ التقرير
+
+            </button>
+
+            <button class="secondary-btn"
+                    data-close-modal="reportModal">
+
+                إغلاق
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     ACCESSIBILITY PANEL
+========================================================= -->
+
+<div id="accessibilityPanel"
+     class="accessibility-panel">
+
+    <button id="accessibilityToggle"
+            class="accessibility-main">
+
+        <i class="fa-solid fa-universal-access"></i>
+
+    </button>
+
+
+    <div class="accessibility-menu">
+
+        <button id="reduceMotionBtn">
+
+            <i class="fa-solid fa-person-walking"></i>
+
+            <span>
+                تقليل الحركة
+            </span>
+
+        </button>
+
+
+        <button id="highContrastBtn">
+
+            <i class="fa-solid fa-circle-half-stroke"></i>
+
+            <span>
+                تباين عالٍ
+            </span>
+
+        </button>
+
+
+        <button id="largeTextBtn">
+
+            <i class="fa-solid fa-text-height"></i>
+
+            <span>
+                نص أكبر
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div id="toastContainer"
+     class="toast-container">
+</div>
+
+
+
+<!-- =========================================================
+     VOICE INDICATOR
+========================================================= -->
+
+<div id="voiceIndicator"
+     class="voice-indicator">
+
+    <div class="voice-wave">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+    <div>
+
+        <strong>
+            أستمع...
+        </strong>
+
+        <small id="voiceTranscript">
+            تحدث الآن
+        </small>
+
+    </div>
+
+    <button id="stopVoiceBtn">
+        <i class="fa-solid fa-stop"></i>
+    </button>
+
+</div>
+
+
+
+<!-- =========================================================
+     WELCOME AUDIO CONTROL
+========================================================= -->
+
+<div id="welcomeVoicePrompt"
+     class="welcome-voice-prompt">
+
+    <div class="welcome-voice-icon">
+        <i class="fa-solid fa-volume-high"></i>
+    </div>
+
+    <div>
+
+        <strong>
+            مرحباً بك في ECOGENESIS AI
+        </strong>
+
+        <span>
+            اضغط لتفعيل التجربة الصوتية
+        </span>
+
+    </div>
+
+    <button id="activateWelcomeVoice">
+        تشغيل
+    </button>
+
+    <button id="dismissWelcomeVoice"
+            class="dismiss-voice">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="script.js"></script>
+
+</body>
+</html>
